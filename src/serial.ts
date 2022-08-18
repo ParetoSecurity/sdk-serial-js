@@ -149,15 +149,18 @@ export class ImprovSerial extends EventTarget {
     };
   }
 
-  public async provision(ssid: string, password: string) {
+  public async provision(ssid: string, password: string, slack: string) {
     const encoder = new TextEncoder();
     const ssidEncoded = encoder.encode(ssid);
     const pwEncoded = encoder.encode(password);
+    const slackEncoded = encoder.encode(slack);
     const data = [
       ssidEncoded.length,
       ...ssidEncoded,
       pwEncoded.length,
       ...pwEncoded,
+      slackEncoded.length,
+      ...slackEncoded,
     ];
     const response = await this._sendRPCWithResponse(
       ImprovSerialRPCCommand.SEND_WIFI_SETTINGS,
